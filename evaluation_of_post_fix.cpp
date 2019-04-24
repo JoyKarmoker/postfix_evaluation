@@ -13,22 +13,37 @@ int power(int base, int exp)
 }
 int main()
 {
-    string str;
-    int len, i=0, num, first, second, value;
+
+    int j;
+    vector <string> str;
+    char  tmp[100000];
+    int len, num, first, second, value;
     stack<int> stk;
-    printf("Give the postfix expression\n");
-    cin >> str;
-    len = str.length();
-    //printf("length = %d\n", len);
-    str.append(") ");
-    while(str[i] != ')')
+    printf("Enter Q to terminate.\n");
+    printf("Give the postfix expression with space after operator and operand\n");
+    for( j=0 ;; j++)
     {
-        if (isdigit(str[i]))
+        scanf("%s", tmp);
+        if(strcmp(tmp, "Q") == 0 || strcmp(tmp, "q") == 0)
         {
-          num = str[i] - '0';
-          stk.push(num);
+            break;
         }
-        else if(str[i] == '+')
+        str.push_back(tmp);
+    }
+    //printf("here\n");
+    str.push_back(")");
+    len = str.size();
+    j = 0;
+    while(str[j]!= ")")
+    {
+        if (isdigit(str[j][0]))
+        {
+            stringstream geek(str[j]);
+            geek >> num;
+            //num = atoi(str[j]);
+            stk.push(num);
+        }
+        else if(str[j] == "+")
         {
             first = stk.top();
             stk.pop();
@@ -38,7 +53,7 @@ int main()
             stk.push(second);
         }
 
-        else if(str[i] == '-')
+        else if(str[j] == "-")
         {
             first = stk.top();
             stk.pop();
@@ -48,7 +63,7 @@ int main()
             stk.push(second);
         }
 
-        else if(str[i] == '*')
+        else if(str[j] == "*")
         {
             first = stk.top();
             stk.pop();
@@ -58,7 +73,7 @@ int main()
             stk.push(second);
         }
 
-        else if(str[i] == '/')
+        else if(str[j] == "/")
         {
             first = stk.top();
             stk.pop();
@@ -67,7 +82,7 @@ int main()
             second = second/first;
             stk.push(second);
         }
-        else if(str[i] == '^')
+        else if(str[j] == "^")
         {
             first = stk.top();
             stk.pop();
@@ -76,7 +91,7 @@ int main()
             second = power(second, first);
             stk.push(second);
         }
-        i++;
+        j++;
     }
 
     value = stk.top();
@@ -84,3 +99,4 @@ int main()
 
 
 }
+
